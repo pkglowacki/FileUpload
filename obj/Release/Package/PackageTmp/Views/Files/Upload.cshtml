@@ -1,0 +1,25 @@
+﻿@*@model AspUploadSample.Models.FileModel*@
+@{
+    ViewBag.Title = "UploadFile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Upload File</h2>
+
+@using (Html.BeginForm("Upload", "Files", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.Label("Browse File", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBox("filesToUpload", "", new { type = "file", @multiple = "multiple" }) <br />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Upload" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}

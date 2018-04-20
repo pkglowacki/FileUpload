@@ -1,0 +1,91 @@
+﻿@model AspUploadSample.Models.FileModel
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <h4>File</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AddDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AddDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastEditDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastEditDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastEditor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastEditor)
+        </dd>
+
+        <dt>
+            Added by
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.User.UserName)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.FilePath)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FilePath)
+        </dd>*@
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.UploadFolder)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UploadFolder)
+        </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FileType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FileType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FileName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FileName)
+        </dd>
+        
+        <dt>
+            File Content
+        </dt>
+
+        <dd>
+            @if (Model.FileType != ".mp3" && Model.FileType != ".wav")
+            {
+                @Html.TextArea("FileContent", (string)ViewBag.FileContent, 25, 40, htmlAttributes: new { style = "width: 100%; max-width: 100%;", @readonly = "readonly", wrap = "off" })
+            }
+            else
+            {
+                <audio src="@Url.Content(@ViewBag.FileContent)" type="audio/mp3" controls preload="none"> </audio>
+            }
+        </dd>
+    </dl>
+</div>

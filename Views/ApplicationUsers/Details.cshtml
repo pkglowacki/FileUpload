@@ -1,0 +1,51 @@
+﻿@model AspUploadSample.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Details</h3>
+
+<dl class="dl-horizontal">
+    <dt>
+        User name:
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.UserName)
+    </dd>
+
+    <dt>
+        Role name:
+    </dt>
+
+    <dd>
+        @Html.DisplayFor(model => model.userRoles)
+    </dd>
+</dl>
+
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>
+            File Name
+        </th>
+    </tr>
+    @foreach (var item in Model.UserFiles)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FileName)
+            </td>
+
+            <td>
+                @Ajax.ActionLink("Details", "Details", "Files", new { id = item.Id }, new AjaxOptions() { UpdateTargetId = "fileAction", InsertionMode = InsertionMode.Replace }, new {@class = "btn btn-info" })
+            </td>
+        </tr>
+    }
+</table>
+<div class="col" id="fileAction"></div>
+
+
+@*@Scripts.Render("~/bundles/jquery")
+<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")" type="text/javascript"></script>*@

@@ -1,0 +1,70 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<AspUploadSample.Models.ApplicationUser>
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" /> 
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="jumbotron">
+    <h1>Users</h1>
+</div>
+
+<div class="col">
+    <div class="col-sm-5">
+        <p>
+            @Html.ActionLink("Add New", "Register", "Account", null, new { @class = "btn btn-primary" })
+        </p>
+        @using (Html.BeginForm("Index", "ApplicationUsers", FormMethod.Get))
+        {
+            <p>
+                Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                <input type="submit" value="Search" />
+            </p>
+        }
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        User Name
+                    </th>
+                    <th>
+                        Actions
+                    </th>
+                    @*<th>
+                        User Role
+                    </th>*@
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserName)
+                        </td>
+                        @*<td>
+                            @Html.DisplayFor(modelItem => item.userRoles)
+                        </td>*@
+                        <td>
+                            @Ajax.ActionLink("Edit", "Edit", new { id = item.Id }, new AjaxOptions() { UpdateTargetId = "userAction", InsertionMode = InsertionMode.Replace }, new { @class = "btn btn-warning" })
+                            @Ajax.ActionLink("Details", "Details", new { id = item.Id }, new AjaxOptions() { UpdateTargetId = "userAction", InsertionMode = InsertionMode.Replace }, new { @class = "btn btn-info" })
+                            @Ajax.ActionLink("Delete", "Delete", new { id = item.Id }, new AjaxOptions() { UpdateTargetId = "userAction", InsertionMode = InsertionMode.Replace }, new { @class = "btn btn-danger" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    </div>
+    <div class="col-sm-7" id="userAction">
+    </div>
+</div>
+
+<br/>
+
+@Scripts.Render("~/bundles/jquery")
+<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")" type="text/javascript"></script>

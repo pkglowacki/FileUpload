@@ -1,0 +1,70 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<AspUploadSample.Models.ApplicationUser>
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" /> 
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="jumbotron">
+    <h1>Multimedia Library</h1>
+</div>
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Add New", "Register", "Account",null, new { @class = "btn btn-primary" })
+</p>
+
+@using (Html.BeginForm("Index", "ApplicationUsers", FormMethod.Get))
+{
+    <p>
+        Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+}
+
+<div class="row">
+    <div class="col-sm-4">
+        <table class="table" align="center">
+            <tr>
+                <th>
+                    User Name
+                </th>
+                <th>
+                    User Role
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.userRoles)
+                    </td>
+                    <td>
+                        @Ajax.ActionLink("Edit", "Edit", new { id = item.Id }, new AjaxOptions() { UpdateTargetId = "userAction", InsertionMode = InsertionMode.Replace }) |
+                        @Ajax.ActionLink("Details", "Details", new { id = item.Id }, new AjaxOptions() { UpdateTargetId = "userAction", InsertionMode = InsertionMode.Replace }) |
+                        @Ajax.ActionLink("Delete", "Delete", new { id = item.Id }, new AjaxOptions() { UpdateTargetId = "userAction", InsertionMode = InsertionMode.Replace })
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="col-sm-8" id="userAction">
+
+    </div>
+</div>
+    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+
+<br/>
+
+
+
+@Scripts.Render("~/bundles/jquery")
+<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")" type="text/javascript"></script>
